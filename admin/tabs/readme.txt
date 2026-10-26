@@ -1,0 +1,1 @@
+Admin tab partials: dashboard.php, ip-blocker.php, patches.php, etc.

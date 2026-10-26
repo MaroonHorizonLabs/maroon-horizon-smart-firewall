@@ -1,0 +1,922 @@
+/* =====================================================
+   Maroon Horizon Smart Firewall - Admin UI Styles
+   ===================================================== */
+
+/* --- Tabs Navigation --- */
+.sfais-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  border-bottom: 1px solid #dcdcdc;
+  margin: 25px 0 25px;
+  background: #f9f9fb;
+  padding: 0 12px;
+  border-radius: 6px 6px 0 0;
+}
+
+.sfais-tabs a {
+  color: #2b2b2b;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 8px 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-bottom: 3px solid transparent;
+  border-radius: 6px 6px 0 0;
+  transition: all 0.25s ease-in-out;
+  font-size: 13px;
+  position: relative;
+  margin-right: 4px;
+  margin-top: 4px;
+}
+
+.sfais-tabs a:hover {
+  color: #ff6f00;
+  background-color: #fff;
+}
+
+.sfais-tabs a.active {
+  border-bottom: 2px solid #0073aa;
+  background-color: #fff;
+  color: #0073aa;
+  font-weight: 600;
+  box-shadow: 0 -1px 3px rgba(15, 23, 42, 0.08);
+}
+
+/* Tab icon + label */
+.sfais-tab-icon {
+  font-size: 16px;
+  line-height: 1;
+  color: #94a3b8;
+}
+
+.sfais-tabs a.active .sfais-tab-icon {
+  color: #0073aa;
+}
+
+.sfais-tab-label {
+  white-space: nowrap;
+}
+
+/* --- PRO Button States --- */
+.sfais-pro-button[disabled] {
+  opacity: 0.9;
+  cursor: not-allowed;
+}
+
+.sfais-upgrade-btn {
+  background: linear-gradient(270deg, #ffe082, #ffb300, #ff8f00);
+  background-size: 250% 250%;
+  color: #1a1a1a !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  padding: 7px 18px !important;
+  border-radius: 6px !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  display: inline-block !important;
+  line-height: 1.4 !important;
+  animation: sfais-neural-glow 4s ease-in-out infinite;
+  transition: all 0.25s ease-in-out;
+  text-decoration: none !important;
+  cursor: pointer !important;
+}
+
+.sfais-pro-active-btn {
+  background: linear-gradient(90deg, #66bb6a, #43a047);
+  color: #fff !important;
+  border: none !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  padding: 7px 18px !important;
+  border-radius: 6px !important;
+  box-shadow: 0 2px 6px rgba(76, 175, 80, 0.4);
+  display: inline-block !important;
+  line-height: 1.4 !important;
+  cursor: default !important;
+  transition: all 0.3s ease-in-out;
+}
+
+@keyframes sfais-neural-glow {
+  0% {
+    box-shadow: 0 0 6px rgba(255, 153, 0, 0.2),
+      0 0 10px rgba(255, 204, 0, 0.1);
+    background-position: 0% 50%;
+  }
+  50% {
+    box-shadow: 0 0 12px rgba(255, 170, 0, 0.4),
+      0 0 20px rgba(255, 140, 0, 0.3);
+    background-position: 100% 50%;
+  }
+  100% {
+    box-shadow: 0 0 6px rgba(255, 153, 0, 0.2),
+      0 0 10px rgba(255, 204, 0, 0.1);
+    background-position: 0% 50%;
+  }
+}
+
+/* --- Tabs Content --- */
+.sfais-tab-content {
+  display: none;
+}
+.sfais-tab-content.active {
+  display: block;
+}
+
+/* =====================================================
+   Dashboard, IP Blocker & Patch Cards - Unified Styles
+   ===================================================== */
+
+.sfais-card {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+/* ✅ Malware Scanner safety notice (scoped; does not affect other tabs) */
+#sfais-tab-scanner .sfais-safety-note{
+  display:flex;
+  gap:12px;
+  align-items:flex-start;
+  padding:12px 14px;
+  margin: 10px 0 16px;
+  border:1px solid #f1c40f;
+  border-left:4px solid #f1c40f;
+  border-radius:8px;
+  background:#fffbe6;
+}
+
+#sfais-tab-scanner .sfais-safety-note .dashicons{
+  font-size:20px;
+  line-height:1;
+  margin-top:2px;
+  color:#a66b00;
+}
+
+/* 1.8.6: informative look (blue) for the scanner guidance */
+#sfais-tab-scanner .sfais-safety-note--info{
+  border-color:#bfdbfe;
+  border-left-color:#2563eb;
+  background:#eff6ff;
+}
+#sfais-tab-scanner .sfais-safety-note--info .dashicons{
+  color:#2563eb;
+}
+
+#sfais-tab-scanner .sfais-safety-note__body{
+  display:block;
+  max-width: 980px;
+}
+
+#sfais-tab-scanner .sfais-safety-note__body strong{
+  display:block;
+  margin-bottom:4px;
+  color:#1f2937;
+}
+
+#sfais-tab-scanner .sfais-safety-note__text{
+  color:#374151;
+  line-height:1.5;
+  margin-bottom:4px;
+}
+
+#sfais-tab-scanner .sfais-safety-note__sub{
+  color:#4b5563;
+  font-size:12px;
+  line-height:1.4;
+}
+
+/* --- Quick Scan + Rating card --- */
+
+.sfais-quick-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sfais-quick-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sfais-status-line .status.good {
+  color: #1e7e34;
+  font-weight: 600;
+}
+
+/* Rating layout */
+
+.sfais-rating-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.sfais-rating-main {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 260px;
+}
+
+.sfais-rating-badge {
+  width: 72px;
+  height: 72px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  font-weight: 700;
+  color: #fff;
+  background: radial-gradient(circle at 30% 20%, #4caf50, #1b5e20);
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.18);
+}
+
+/* Grade color variations */
+
+.sfais-rating-badge.grade-a {
+  background: radial-gradient(circle at 30% 20%, #4caf50, #1b5e20);
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.18);
+}
+
+.sfais-rating-badge.grade-b {
+  background: radial-gradient(circle at 30% 20%, #03a9f4, #01579b);
+  box-shadow: 0 0 0 2px rgba(3, 169, 244, 0.18);
+}
+
+.sfais-rating-badge.grade-c {
+  background: radial-gradient(circle at 30% 20%, #ffb300, #ff6f00);
+  box-shadow: 0 0 0 2px rgba(255, 179, 0, 0.18);
+}
+
+.sfais-rating-badge.grade-d {
+  background: radial-gradient(circle at 30% 20%, #ff7043, #e64a19);
+  box-shadow: 0 0 0 2px rgba(230, 74, 25, 0.2);
+}
+
+.sfais-rating-badge.grade-e {
+  background: radial-gradient(circle at 30% 20%, #f44336, #b71c1c);
+  box-shadow: 0 0 0 2px rgba(244, 67, 54, 0.22);
+}
+
+.sfais-rating-badge.grade-na {
+  background: radial-gradient(circle at 30% 20%, #9e9e9e, #616161);
+  box-shadow: 0 0 0 2px rgba(158, 158, 158, 0.22);
+}
+
+.sfais-rating-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sfais-rating-score {
+  font-weight: 600;
+  font-size: 16px;
+  color: #111827;
+}
+
+.sfais-rating-label {
+  font-weight: 500;
+  font-size: 13px;
+  color: #4b5563;
+}
+
+.sfais-rating-summary {
+  font-size: 13px;
+  color: #6b7280;
+  max-width: 360px;
+}
+
+/* Side: last checked + button */
+
+.sfais-rating-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  text-align: right;
+  min-width: 220px;
+}
+
+.sfais-last-checked {
+  margin: 0;
+  font-size: 13px;
+  color: #4b5563;
+}
+
+/* --- Check tables --- */
+
+.sfais-check-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+}
+
+.sfais-check-table th,
+.sfais-check-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #f1f1f1;
+  vertical-align: top;
+}
+
+/* Keep values like "No (perm 0444)" on one line */
+.sfais-check-table code {
+  white-space: nowrap;
+  font-size: 13px;
+  background: #f7f7f7;
+  border-radius: 4px;
+  padding: 2px 6px;
+  color: #555;
+  font-family: monospace;
+}
+
+/* Status badges */
+.sfais-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.sfais-badge.ok {
+  background: #e6f4ea;
+  color: #1e7e34;
+}
+
+.sfais-badge.warn {
+  background: #fff8e1;
+  color: #a66b00;
+}
+
+.sfais-badge.crit {
+  background: #fdecea;
+  color: #a12622;
+}
+
+.sfais-badge.info {
+  background: #eef3ff;
+  color: #2f49c2;
+}
+
+.sfais-badge.pro {
+  background: #eee;
+  color: #444;
+}
+
+.sfais-label {
+  font-weight: 600;
+}
+
+.sfais-submsg {
+  color: #666;
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
+.sfais-section-title {
+  margin: 0 0 10px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Mobile responsive layout */
+@media (max-width: 768px) {
+  .sfais-check-table,
+  .sfais-check-table tbody,
+  .sfais-check-table tr,
+  .sfais-check-table td {
+    display: block;
+    width: 100% !important;
+  }
+  .sfais-check-table tr {
+    border: 1px solid #f0f0f0;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    background: #fff;
+    padding: 6px;
+  }
+  .sfais-check-table td {
+    border: none;
+    padding: 6px 4px;
+  }
+  .sfais-label {
+    margin-bottom: 4px;
+  }
+  .sfais-submsg {
+    margin-top: 6px;
+  }
+
+  .sfais-rating-row {
+    align-items: flex-start;
+  }
+
+  .sfais-rating-side {
+    align-items: flex-start;
+    text-align: left;
+  }
+}
+
+/* === Inline styles migrated from admin tab templates for WP.org compliance === */
+
+/* Moved from ip-blocker.php */
+.sfais-ip-card {
+    border: 1px solid #d0d7de;
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 10px;
+    background: #fff;
+    transition: box-shadow 0.2s ease, background 0.2s ease;
+  }
+  .sfais-ip-card:hover { background:#f9fafb; }
+  .sfais-chip { padding:2px 6px; border-radius:4px; font-size:12px; }
+  .sfais-chip-ht { background:#e3f2fd; color:#1565c0; }
+  .sfais-chip-php { background:#e8f5e9; color:#2e7d32; }
+
+  /* Highlighted firewall metric */
+  .sfais-firewall-metric {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    margin-left: 6px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #e3f2fd, #e8f5e9);
+    font-weight: 600;
+    font-size: 12px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+  }
+
+  .sfais-autosync-pill {
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:3px 9px;
+    border-radius:999px;
+    font-size:12px;
+    background:#f5f5f5;
+    border:1px solid #e0e0e0;
+    margin-top:4px;
+  }
+  .sfais-autosync-pill span.sfais-dot {
+    width:8px;
+    height:8px;
+    border-radius:999px;
+    display:inline-block;
+  }
+  .sfais-autosync-on span.sfais-dot { background:#2e7d32; }
+  .sfais-autosync-off span.sfais-dot { background:#d32f2f; }
+/* -------------------------------------------
+   Threat Feed PRO-preview (FREE) styling
+   Local to this tab: avoids CSS drift + keeps
+   preview consistent even if global CSS changes.
+-------------------------------------------- */
+.sfais-tf-head{
+  display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;
+}
+.sfais-badges{ display:inline-flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.sfais-badge{
+  display:inline-flex; align-items:center; gap:6px;
+  padding:4px 10px; border-radius:999px; font-size:12px; font-weight:700;
+  border:1px solid #e0e0e0; background:#f7f7f7; color:#333;
+}
+.sfais-badge-pro{ background:#e3f2fd; border-color:#90caf9; color:#0d47a1; }
+.sfais-badge-lock{ background:#fff3e0; border-color:#ffe0b2; color:#e65100; }
+
+.sfais-tf-panel{
+  margin-top:10px;
+  padding:12px;
+  border:1px solid #e6e6e6;
+  border-radius:12px;
+  background:#fff;
+  box-shadow:0 1px 2px rgba(0,0,0,0.04);
+}
+
+.sfais-tf-meta{
+  margin:8px 0 10px 0;
+  padding-left:18px;
+  font-size:13px;
+  color:#444;
+}
+.sfais-tf-meta li{ margin:6px 0; }
+
+.sfais-preview-muted{ color:#666; font-size:12px; }
+.sfais-preview-warning{
+  margin-top:10px;
+  padding:10px 12px;
+  border-radius:10px;
+  border:1px solid #ffe0b2;
+  background:#fff8ef;
+  color:#6d4c41;
+  font-size:12px;
+}
+
+.sfais-skel{
+  display:inline-block;
+  height:12px;
+  background:#e6e6e6;
+  border-radius:999px;
+  position:relative;
+  overflow:hidden;
+  vertical-align:middle;
+  transform: translateY(-1px);
+}
+.sfais-skel::after{
+  content:"";
+  position:absolute;
+  top:0; left:-45%;
+  width:45%;
+  height:100%;
+  background:rgba(255,255,255,0.65);
+  transform:skewX(-18deg);
+  animation: sfais_skel_shimmer 1.15s infinite;
+}
+@keyframes sfais_skel_shimmer{
+  0%{ left:-45%; }
+  100%{ left:120%; }
+}
+.sfais-skel-w-80{ width:80px; }
+.sfais-skel-w-140{ width:140px; }
+.sfais-skel-w-220{ width:220px; }
+.sfais-skel-w-320{ width:320px; }
+
+.sfais-tf-controls{
+  margin-top:10px;
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.sfais-tip-wrap{ display:inline-block; }
+.sfais-tip-wrap[title]{ cursor:not-allowed; }
+.sfais-tip-wrap button{ cursor:not-allowed; }
+
+.sfais-tf-cta{
+  margin-top:12px;
+  display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+}
+.sfais-tf-cta .sfais-cta-sub{ font-size:12px; color:#555; }
+
+.sfais-tf-disabled-fieldset{
+  opacity:0.65;
+  pointer-events:none;
+}
+/* Country UI polish (same look in real + preview) */
+    .sfais-cf-statusbar{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      padding:10px 12px; border:1px solid #e6e6e6; border-radius:10px;
+      background:#fff;
+      margin:10px 0 12px;
+    }
+    .sfais-cf-left{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+    .sfais-cf-badge{
+      display:inline-flex; align-items:center; gap:6px;
+      padding:4px 10px; border-radius:999px; font-size:12px; font-weight:600;
+      border:1px solid #e0e0e0; background:#f7f7f7; color:#333;
+    }
+    .sfais-cf-badge-ok{ background:#e8f5e9; border-color:#c8e6c9; color:#1b5e20; }
+    .sfais-cf-badge-preview{ background:#fff3e0; border-color:#ffe0b2; color:#e65100; }
+    .sfais-cf-detected{
+      font-size:12px; color:#444;
+    }
+    .sfais-cf-detected code{ font-size:12px; }
+    .sfais-cf-toolbar{
+      display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+      margin:6px 0 12px;
+    }
+    .sfais-cf-toolbar input[type="text"]{
+      min-width:260px;
+      padding:6px 10px;
+      border:1px solid #d0d7de;
+      border-radius:8px;
+    }
+    .sfais-cf-region-grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap:12px;
+      max-width:900px;
+    }
+    .sfais-region-card{
+      border:1px solid #e7e7e7;
+      border-radius:12px;
+      background:#fff;
+      padding:10px 10px 12px;
+      box-shadow:0 1px 2px rgba(0,0,0,0.04);
+    }
+    .sfais-region-card h4{
+      margin:0 0 10px;
+      font-size:13px;
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    .sfais-region-list{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+    .sfais-country-pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:7px 10px;
+      border-radius:999px;
+      border:1px solid #d0d7de;
+      background:#fafbfc;
+      cursor:pointer;
+      user-select:none;
+      transition:transform .05s ease, background .15s ease, border-color .15s ease;
+    }
+    .sfais-country-pill:hover{ background:#f3f4f6; }
+    .sfais-country-pill:active{ transform: translateY(1px); }
+    .sfais-country-pill input{
+      position:absolute;
+      opacity:0;
+      pointer-events:none;
+    }
+    .sfais-country-pill .sfais-country-name{
+      font-size:12px;
+      color:#111;
+      white-space:nowrap;
+    }
+    .sfais-country-pill .sfais-country-code{
+      font-size:11px;
+      color:#555;
+      background:#fff;
+      border:1px solid #e0e0e0;
+      padding:2px 7px;
+      border-radius:999px;
+    }
+    .sfais-country-pill.is-checked{
+      background:#e3f2fd;
+      border-color:#90caf9;
+    }
+    .sfais-country-pill.is-checked .sfais-country-code{
+      border-color:#90caf9;
+      background:#fff;
+      color:#0d47a1;
+    }
+    .sfais-country-muted{
+      font-size:12px;
+      color:#555;
+    }
+    .sfais-cf-preview-controls{
+      display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+      padding:10px 12px;
+      border:1px dashed #e0e0e0;
+      border-radius:10px;
+      background:#fcfcfc;
+      margin:10px 0 12px;
+    }
+    .sfais-cf-preview-controls select{
+      min-width:260px;
+      max-width:360px;
+      padding:6px 10px;
+      border:1px solid #d0d7de;
+      border-radius:8px;
+    }
+
+/* Moved from scanner.php */
+#sfais-tab-scanner .sfais-summary {
+      display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px;
+    }
+    #sfais-tab-scanner .sfais-summary .metric {
+      background:#f8f9fa;
+      border-radius:6px;
+      padding:6px 10px;
+      font-weight:600;
+      min-width:80px;
+      text-align:center;
+      box-shadow:0 0 0 1px rgba(0,0,0,0.06);
+    }
+    #sfais-tab-scanner .metric.ok{color:#2e7d32;}
+    #sfais-tab-scanner .metric.warn{color:#f57c00;}
+    #sfais-tab-scanner .metric.crit{color:#c62828;}
+    #sfais-tab-scanner .metric.info{color:#1565c0;}
+    #sfais-tab-scanner .sfais-badge{padding:2px 6px;border-radius:4px;font-size:12px;color:#fff;}
+    #sfais-tab-scanner .sfais-badge.ok{background:#2e7d32;}
+    #sfais-tab-scanner .sfais-badge.warn{background:#f57c00;}
+    #sfais-tab-scanner .sfais-badge.crit{background:#c62828;}
+    #sfais-tab-scanner .sfais-badge.info{background:#1565c0;}
+    #sfais-tab-scanner .sfais-table-wrap table{width:100%;border-collapse:collapse;font-size:13px;}
+    #sfais-tab-scanner .sfais-table-wrap th,
+    #sfais-tab-scanner .sfais-table-wrap td{padding:6px 8px;border-bottom:1px solid #eaeaea;vertical-align:middle;}
+    #sfais-tab-scanner .sfais-table-wrap th{background:#f3f4f6;text-align:left;}
+    #sfais-tab-scanner .sfais-actions button{margin-right:4px;font-size:12px!important;padding:2px 6px!important;}
+    #sfais-tab-scanner .sfais-meta-line{
+      margin-top:2px;
+      font-size:11px;
+      color:#666;
+      word-break:break-all;
+    }
+
+    /* ✅ Status pill styling */
+    #sfais-tab-scanner .sfais-pill{
+      display:inline-flex;
+      align-items:center;
+      padding:3px 10px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:600;
+      border:1px solid transparent;
+    }
+    #sfais-tab-scanner .sfais-pill-on{
+      background:#e8f5e9;
+      color:#2e7d32;
+      border-color:#2e7d32;
+    }
+    #sfais-tab-scanner .sfais-pill-off{
+      background:#fff3e0;
+      color:#f57c00;
+      border-color:#f57c00;
+    }
+
+    /* ℹ️ Metric help icon + tooltip */
+    #sfais-tab-scanner .sfais-metric-label{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:4px;
+      font-weight:600;
+      font-size:12px;
+    }
+    #sfais-tab-scanner .sfais-metric-help{
+      border:1px solid currentColor;
+      background:transparent;
+      border-radius:999px;
+      width:16px;
+      height:16px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      font-size:10px;
+      line-height:1;
+      padding:0;
+      cursor:pointer;
+    }
+    #sfais-tab-scanner .sfais-metric-help:focus{
+      outline:2px solid #0073aa;
+      outline-offset:1px;
+    }
+    #sfais-tab-scanner .sfais-metric-tooltip{
+      margin-top:4px;
+      font-size:11px;
+      color:#555;
+      background:#ffffff;
+      border-radius:4px;
+      padding:4px 6px;
+      box-shadow:0 1px 3px rgba(15,23,42,0.18);
+      text-align:left;
+    }
+
+    /* -------------------------------------------
+       Match Threat Feed FREE PRO-preview badges
+       (same class names + same visual rules)
+       Scoped to scanner tab to avoid global drift.
+    -------------------------------------------- */
+    #sfais-tab-scanner .sfais-tf-head{
+      display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;
+    }
+    #sfais-tab-scanner .sfais-badges{ display:inline-flex; align-items:center; gap:8px; flex-wrap:wrap; }
+
+    #sfais-tab-scanner .sfais-pilltag{
+        display:inline-flex; align-items:center; gap:6px;
+        padding:4px 10px; border-radius:999px; font-size:12px; font-weight:700;
+        border:1px solid #e0e0e0; background:#f7f7f7; color:#333;
+    }
+    #sfais-tab-scanner .sfais-pilltag-pro{ background:#e3f2fd; border-color:#90caf9; color:#0d47a1; }
+    #sfais-tab-scanner .sfais-pilltag-lock{ background:#fff3e0; border-color:#ffe0b2; color:#e65100; }
+
+
+    #sfais-tab-scanner .sfais-tf-cta{
+      margin-top:12px;
+      display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+    }
+    #sfais-tab-scanner .sfais-tf-cta .sfais-cta-sub{ font-size:12px; color:#555; }
+
+    
+    @media (max-width: 782px){
+      /* Summary metrics: compact 2-column grid on mobile */
+      #sfais-tab-scanner .sfais-summary{
+        display:grid;
+        grid-template-columns: 1fr 1fr;
+        gap:8px;
+        align-items:stretch;
+      }
+      #sfais-tab-scanner .sfais-summary .metric{
+        min-width:0;
+        padding:8px 10px;
+      }
+
+      /* Tables: turn rows into full-width cards */
+      #sfais-tab-scanner .sfais-table-wrap table.widefat{
+        border:0;
+        background:transparent;
+      }
+      #sfais-tab-scanner .sfais-table-wrap table.widefat thead{
+        display:none !important;
+      }
+      #sfais-tab-scanner .sfais-table-wrap table.widefat tbody,
+      #sfais-tab-scanner .sfais-table-wrap table.widefat tr,
+      #sfais-tab-scanner .sfais-table-wrap table.widefat td{
+        display:block;
+        width:100%;
+      }
+      #sfais-tab-scanner .sfais-table-wrap table.widefat tbody tr{
+        border:1px solid #e5e7eb;
+        border-radius:10px;
+        padding:10px 12px;
+        margin:10px 0;
+        background:#fff;
+        box-shadow:0 0 0 1px rgba(0,0,0,0.02);
+      }
+      #sfais-tab-scanner .sfais-table-wrap table.widefat tbody td{
+        border:0;
+        padding:8px 0;
+        width:100% !important; /* override inline widths set by JS */
+        max-width:100%;
+      }
+      #sfais-tab-scanner .sfais-table-wrap table.widefat tbody td::before{
+        content: attr(data-label);
+        display:block;
+        font-size:11px;
+        font-weight:700;
+        color:#6b7280;
+        text-transform:uppercase;
+        letter-spacing:.02em;
+        margin:0 0 4px;
+      }
+      #sfais-tab-scanner .sfais-table-wrap table.widefat tbody td[data-label="Action"],
+      #sfais-tab-scanner .sfais-table-wrap table.widefat tbody td[data-label="Actions"]{
+        padding-top:10px;
+      }
+
+      /* File paths & code blocks: full width and readable wrapping */
+      #sfais-tab-scanner .sfais-table-wrap code{
+        display:block;
+        width:100%;
+        white-space:normal;
+        overflow-wrap:anywhere;
+        word-break:break-word;
+      }
+
+      /* Action buttons: tap-friendly, wrap nicely */
+      #sfais-tab-scanner .sfais-actions{
+        display:flex;
+        flex-wrap:wrap;
+        gap:8px;
+        width:100%;
+      }
+      #sfais-tab-scanner .sfais-actions .button{
+        margin:0 !important;
+        flex:1 1 calc(50% - 8px);
+        text-align:center;
+        padding:8px 10px !important;
+        font-size:13px !important;
+        min-height:36px;
+      }
+      #sfais-tab-scanner .sfais-actions .button:only-child{
+        flex-basis:100%;
+      }
+    }
+
+/* Moved from settings.php */
+#sfais-tab-settings .sfais-card {
+      background:#fff;
+      border:1px solid #e0e0e0;
+      border-radius:8px;
+      padding:15px 20px;
+      box-shadow:0 1px 2px rgba(0,0,0,0.04);
+    }
+    #sfais-tab-settings h3 {
+      margin-top:0;
+      margin-bottom:8px;
+      font-weight:600;
+    }
+    #sfais-tab-settings .button[disabled],
+    #sfais-tab-settings .sfais-pro-button[disabled] {
+      opacity:0.6;
+      cursor:not-allowed;
+    }
+
+
+/* 1.8.6: phones - long buttons wrap instead of pushing the page wider than the screen */
+@media (max-width: 600px) {
+  .sfais-wrap .button {
+    white-space: normal;
+    height: auto;
+    max-width: 100%;
+    line-height: 1.4;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    text-align: center;
+  }
+}

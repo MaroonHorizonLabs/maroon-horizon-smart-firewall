@@ -1,0 +1,1 @@
+Core PHP classes (Firewall, Patches, Diagnostics) go here.
