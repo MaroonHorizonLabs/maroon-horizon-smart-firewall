@@ -1,10 +1,10 @@
-=== Maroon Horizon Smart Firewall - Malware Scanner & IP Blocking ===
+=== MH Smart Firewall - Security, Malware Scanner & Login Protection ===
 Contributors: mhlabs
 Tags: security, firewall, malware scanner, hardening, brute force
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.8.16
+Stable tag: 1.8.17
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -168,6 +168,14 @@ Maroon Horizon Smart Firewall is designed to minimize data sharing.
 
 == Changelog ==
 
+= 1.8.17 =
+* New name: MH Smart Firewall - Security, Malware Scanner & Login Protection (same plugin, same settings - nothing to do after the update).
+* New: the plugin page shows the edition and version at the top ("Free edition · v1.8.17").
+* Fix: "Fix File Permissions" shows the real state - when wp-config.php or .htaccess became writable again (for example after a hosting tool or an FTP upload), the patch says "Active - but writable again" with an "Apply again" button, and the Dashboard check says the same.
+* Fix: patches that write .htaccess (uploads protection; in PRO also Protect wp-config.php, Force HTTPS, Block PHP in wp-content) now work when .htaccess is locked read-only - it is unlocked for a moment and locked again with the same permissions.
+* Fix: messages with two lines kept their line break - Recent activity showed "core files.Changed: 1".
+* Improved: in the WordPress Playground Live Preview the File Integrity Check says in one sentence why it is off there (Playground runs a shortened copy of WordPress, so every core file would look changed); real sites are checked as before.
+
 = 1.8.16 =
 * New: Recent activity on the Dashboard keeps the last 200 events (patches, IP blocks, quarantine, ignored files, scans, score changes, Login Guard lockouts, Threat Feed updates, clean-ups) in a scrollable list.
 * New: quarantine is safer - a quarantined file is stored encoded under a random name, readable only by the owner, so it can't run, can't be opened from the web (also on Nginx) and host virus scanners don't see the original code. Restore checks it is unchanged and puts the file back exactly, with its permissions. Older quarantined files are converted automatically.
@@ -285,6 +293,9 @@ Maroon Horizon Smart Firewall is designed to minimize data sharing.
 * Initial release.
 
 == Upgrade Notice ==
+
+= 1.8.17 =
+New name MH Smart Firewall (same plugin and settings). Fix File Permissions shows when files became writable again; .htaccess patches work with a locked .htaccess.
 
 = 1.8.16 =
 Safer quarantine (encoded files), automatic clean-up of the plugin's own data, full clean-up on delete, and a Recent activity list with the last 200 events.

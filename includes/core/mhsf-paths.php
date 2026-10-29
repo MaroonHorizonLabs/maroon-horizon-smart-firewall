@@ -157,7 +157,7 @@ if ( ! function_exists( 'mhsf_protect_dir' ) ) {
 			return;
 		}
 		if ( ! file_exists( $dir . '/.htaccess' ) ) {
-			@file_put_contents( $dir . '/.htaccess', "# Maroon Horizon Smart Firewall - private data, never served\n<IfModule mod_authz_core.c>\n  Require all denied\n</IfModule>\n<IfModule !mod_authz_core.c>\n  Order deny,allow\n  Deny from all\n</IfModule>\n" ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents, WordPress.PHP.NoSilencedErrors.Discouraged
+			@file_put_contents( $dir . '/.htaccess', "# MH Smart Firewall - private data, never served\n<IfModule mod_authz_core.c>\n  Require all denied\n</IfModule>\n<IfModule !mod_authz_core.c>\n  Order deny,allow\n  Deny from all\n</IfModule>\n" ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents, WordPress.PHP.NoSilencedErrors.Discouraged
 		}
 		if ( ! file_exists( $dir . '/index.php' ) ) {
 			@file_put_contents( $dir . '/index.php', "<?php\n// Silence is golden.\n" ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents, WordPress.PHP.NoSilencedErrors.Discouraged
@@ -216,9 +216,66 @@ if ( ! function_exists( 'mhsf_maybe_admin_notice_uploads_error' ) ) {
 					return;
 				}
 				echo '<div class="notice notice-error"><p>';
-				echo esc_html__( 'Maroon Horizon Smart Firewall:', 'maroon-horizon-smart-firewall' ) . ' ' . esc_html( $error->get_error_message() );
+				echo esc_html__( 'MH Smart Firewall:', 'maroon-horizon-smart-firewall' ) . ' ' . esc_html( $error->get_error_message() );
 				echo '</p></div>';
 			}
 		);
 	}
 }
+
+if ( ! function_exists( 'mhsf_is_playground' ) ) {
+	/**
+	 * 1.8.17: true inside WordPress Playground (the WordPress.org Live Preview). Playground ships a size-compacted WordPress
+	 * (comments and spaces removed), so a core-file comparison there would list every file as modified. Signals measured in the
+	 * real playground.wordpress.net on 29 Oct 2026: SERVER_SOFTWARE "PHP.wasm", php_uname "Emscripten ... wasm32",
+	 * constant PLAYGROUND_PARENT_ORIGIN, Playground's own mu-plugin functions. None of them exists on a real server.
+	 *
+	 * @return bool
+	 */
+	function mhsf_is_playground() {
+		static $is = null;
+		if ( null === $is ) {
+			// Compared only, never output.
+			$soft = isset( $_SERVER['SERVER_SOFTWARE'] ) ? sanitize_text_field( wp_unslash( $_SERVER['SERVER_SOFTWARE'] ) ) : '';
+			$is   = ( 0 === stripos( $soft, 'PHP.wasm' ) )
+				|| ( function_exists( 'php_uname' ) && false !== stripos( (string) php_uname( 's' ), 'emscripten' ) )
+				|| defined( 'PLAYGROUND_PARENT_ORIGIN' )
+				|| function_exists( 'playground_load_mu_plugins' );
+			$is   = (bool) apply_filters( 'mhsf_is_playground', $is );
+		}
+		return $is;
+	}
+}
+
+if ( ! function_exists( 'mhsf_permissions_drift' ) ) {
+	/**
+	 * 1.8.17: the REAL state behind "Fix File Permissions" - files that are looser again than the patch made them
+	 * (wp-config.php above 0440, root .htaccess above 0444), e.g. after a hosting tool, FTP upload or another plugin
+	 * re-wrote them. A wp-config.php one folder up is not the patch's file and is left out (the patch never changes it).
+	 *
+	 * @return array file name => current permissions ('0644'); empty when everything is still hardened.
+	 */
+	function mhsf_permissions_drift() {
+		$out     = array();
+		$targets = array(
+			'wp-config.php' => array( ABSPATH . 'wp-config.php', 0440 ),
+			'.htaccess'     => array( ABSPATH . '.htaccess', 0444 ),
+		);
+		foreach ( $targets as $name => $t ) {
+			if ( ! file_exists( $t[0] ) ) {
+				continue;
+			}
+			clearstatcache( true, $t[0] );
+			$fp = is_readable( dirname( $t[0] ) ) ? fileperms( $t[0] ) : false;
+			if ( false === $fp ) {
+				continue;
+			}
+			$mode = $fp & 0777;
+			if ( $mode & ~$t[1] & 0777 ) {
+				$out[ $name ] = sprintf( '%04o', $mode );
+			}
+		}
+		return $out;
+	}
+}
+

@@ -409,7 +409,7 @@ class SFAIS_Security_Check {
             'label'   => 'wp-config.php Writable',
             'value'   => ( $writable ? "Yes (perm {$perm})" : "No (perm {$perm})" ),
             'status'  => ( $writable ? 'warn' : 'ok' ),
-            'message' => ( $writable ? 'This file should not be writable by the web server.' : 'Good: wp-config.php is read-only for the web server.' ),
+            'message' => ( $writable ? ( get_option( 'sfais_patch_permissions' ) && ABSPATH . 'wp-config.php' === $cfg ? 'Fix File Permissions is on, but wp-config.php is writable again (perm ' . $perm . '). Open Security Patches and click "Apply again".' : 'This file should not be writable by the web server.' ) : 'Good: wp-config.php is read-only for the web server.' ),
         ];
     }
 
@@ -656,7 +656,7 @@ class SFAIS_Security_Check {
             'label'   => 'Backup Found',
             'value'   => 'Not detected',
             'status'  => 'warn',
-            'message' => 'Maroon Horizon Smart Firewall cannot detect any backup solution on this site. Set up regular backups with your host or a backup plugin, then confirm it in the dashboard.',
+            'message' => 'MH Smart Firewall cannot detect any backup solution on this site. Set up regular backups with your host or a backup plugin, then confirm it in the dashboard.',
         ];
     }
 

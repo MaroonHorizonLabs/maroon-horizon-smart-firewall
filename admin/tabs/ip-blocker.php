@@ -315,7 +315,7 @@ call_user_func( static function () {
 
   <p class="sfais-note" style="margin-top:8px;font-size:12px;">
     The feed is curated daily by Maroon Horizon AI, digitally signed and built on Maroon Horizon's own servers.
-    Only licensed Maroon Horizon Smart Firewall PRO can use it.
+    Only licensed MH Smart Firewall PRO can use it.
   </p>
 </div>
 

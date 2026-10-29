@@ -259,6 +259,10 @@ body.mhsf-ui-dark #wpfooter a {
 	text-transform: uppercase;
 	color: var(--mh-kick);
 }
+.sfais-wrap .mhsf-kick-ver {
+	text-transform: none; /* 1.8.17: 'v1.8.17', not 'V1.8.17' */
+	letter-spacing: 1px;
+}
 .sfais-wrap .sfais-logo-title {
 	font-size: 26px;
 	font-weight: 800;
@@ -533,6 +537,13 @@ body.mhsf-ui-dark #wpfooter a {
 }
 .sfais-wrap .mhsf-patch-card [data-status].is-on {
 	color: var(--mh-ok) !important;
+}
+.sfais-wrap .mhsf-patch-card [data-status].is-drift {
+	color: var(--mh-warn) !important; /* 1.8.17: on, but the files are writable again */
+	min-width: 0;
+}
+.sfais-wrap .mhsf-patch-card .mhsf-reapply {
+	margin-left: 8px;
 }
 .sfais-wrap .mhsf-lock {
 	font-size: 12.5px;

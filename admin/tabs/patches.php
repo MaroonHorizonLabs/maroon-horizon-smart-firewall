@@ -119,7 +119,18 @@ call_user_func( static function () {
         echo '    <input type="hidden" name="sfais_patch" value="' . esc_attr( $patch_key ) . '">';
         // Button + status
         // 1.8.7: one switch per patch (same button + AJAX as before, drawn as a switch; its text stays for screen readers)
-        if ( $active ) {
+        // 1.8.17: show the REAL state - "Fix File Permissions" stayed "Active" while wp-config.php was 0644 again
+        $drift = ( $active && 'permissions' === $patch_key && function_exists( 'mhsf_permissions_drift' ) ? mhsf_permissions_drift() : array() );
+        if ( $active && $drift ) {
+            $drift_txt = array();
+            foreach ( $drift as $drift_file => $drift_perm ) {
+                $drift_txt[] = $drift_file . ' ' . $drift_perm;
+            }
+            /* translators: %s: files with their permissions, e.g. "wp-config.php 0644" */
+            echo '    <span class="sfais-status is-on is-drift" data-status>' . esc_html( sprintf( __( 'Active - but writable again (%s): apply again', 'maroon-horizon-smart-firewall' ), implode( ', ', $drift_txt ) ) ) . '</span>';
+            echo '    <button type="submit" class="mhsf-switch" role="switch" aria-checked="true" aria-label="' . esc_attr( $title ) . '" name="sfais_patch_action" value="revert">🔄 Revert Patch</button>';
+            echo '    <button type="submit" class="button button-small mhsf-reapply" name="sfais_reapply" value="apply">' . esc_html__( 'Apply again', 'maroon-horizon-smart-firewall' ) . '</button>';
+        } elseif ( $active ) {
             echo '    <span class="sfais-status is-on" data-status>Active</span>';
             echo '    <button type="submit" class="mhsf-switch" role="switch" aria-checked="true" aria-label="' . esc_attr( $title ) . '" name="sfais_patch_action" value="revert">🔄 Revert Patch</button>';
         } else {

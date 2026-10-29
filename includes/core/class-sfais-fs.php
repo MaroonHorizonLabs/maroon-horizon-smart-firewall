@@ -159,11 +159,80 @@ final class SFAIS_FS {
         return false;
     }
 
+    /** 1.8.17: true only while a Security Patch is applied or reverted (see write()). */
+    private static $htaccess_unlock = false;
+
+    public static function allow_htaccess_unlock( $on ) {
+        self::$htaccess_unlock = (bool) $on;
+    }
+
     public static function write( $path, $contents, $chmod = null ) : bool {
         $path = (string) $path;
         if ( $path === '' ) {
             return false;
         }
+
+        // 1.8.17: while a Security Patch is switched (allow_htaccess_unlock), a .htaccess locked read-only (e.g. 0444 by "Fix File
+        // Permissions") is unlocked for this one write and locked again with its old permissions. Patches said ".htaccess could not
+        // be updated". Everything else (IP Blocker: "Blocked: WordPress only" on a locked file - Vlad 1.8.10) keeps respecting the lock.
+        if ( self::$htaccess_unlock && '.htaccess' === basename( $path ) && file_exists( $path ) && ! self::is_writable( $path ) ) {
+            $relock = self::unlock( $path );
+            if ( null === $relock ) {
+                return false;
+            }
+            $ok = self::write_raw( $path, $contents, $relock );
+            self::chmod( $path, $relock );
+            clearstatcache( true, $path );
+            return $ok;
+        }
+        return self::write_raw( $path, $contents, $chmod );
+    }
+
+    /**
+     * 1.8.17: make a read-only file owner-writable. Returns its old permissions (to lock it again with chmod) or null.
+     */
+    public static function unlock( $path ) {
+        $path = (string) $path;
+        clearstatcache( true, $path );
+        $perms = file_exists( $path ) ? fileperms( $path ) : false;
+        if ( false === $perms ) {
+            return null;
+        }
+        $old = $perms & 0777;
+        if ( ! self::chmod( $path, $old | 0200 ) ) {
+            return null;
+        }
+        clearstatcache( true, $path );
+        if ( ! self::is_writable( $path ) ) {
+            self::chmod( $path, $old );
+            clearstatcache( true, $path );
+            return null;
+        }
+        return $old;
+    }
+
+    /**
+     * 1.8.17: can the plugin change this .htaccess? True when it is writable, or locked read-only but the plugin may unlock
+     * it for a moment (write() does that). A missing file counts when its folder is writable.
+     */
+    public static function htaccess_writable( $path ) : bool {
+        $path = (string) $path;
+        if ( ! file_exists( $path ) ) {
+            return self::is_writable( dirname( $path ) );
+        }
+        if ( self::is_writable( $path ) ) {
+            return true;
+        }
+        $old = self::unlock( $path );
+        if ( null === $old ) {
+            return false;
+        }
+        self::chmod( $path, $old );   // only a test - locked again at once
+        clearstatcache( true, $path );
+        return true;
+    }
+
+    private static function write_raw( $path, $contents, $chmod = null ) : bool {
 
         $dir = dirname( $path );
         if ( $dir && ! is_dir( $dir ) ) {

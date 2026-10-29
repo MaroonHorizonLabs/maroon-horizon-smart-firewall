@@ -29,6 +29,8 @@ if ( ! function_exists( 'mhsf_activity_add' ) ) {
 	 */
 	function mhsf_activity_add( $type, $text ) {
 		$type = sanitize_key( (string) $type );
+		// 1.8.17: a line break or block end becomes a space - 'core files.<br>Changed: 1' was logged as 'core files.Changed: 1'
+		$text = preg_replace( '#<br\s*/?>|</(?:p|div|li|h[1-6]|tr|td|ul|ol)>#i', ' ', (string) $text );
 		$text = trim( preg_replace( '/\s+/u', ' ', wp_strip_all_tags( (string) $text ) ) );
 		$text = trim( preg_replace( '/^[^\p{L}\p{N}"\'(]+/u', '', $text ) );   // leading emoji / symbols from button answers
 		if ( '' === $text ) {

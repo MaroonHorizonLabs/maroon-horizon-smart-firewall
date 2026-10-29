@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Plugin Name: Maroon Horizon Smart Firewall
+ * Plugin Name: MH Smart Firewall - Security, Malware Scanner & Login Protection
  * Plugin URI: https://mh.ie/maroon-horizon-smart-firewall/
  * Description: Security hardening toolkit for WordPress with firewall controls, patch toggles, file integrity checks, malware scanning, and IP protection.
- * Version: 1.8.16
+ * Version: 1.8.17
  * Requires at least: 6.0
  * Requires PHP: 7.4
  * Tested up to: 7.1
@@ -161,10 +161,10 @@ register_activation_hook( __FILE__, static function ( $network_wide ) use($mhsf_
             $looks_related = false;
             if ( 'maroon-horizon-smart-firewall' === $textdomain ) {
                 $looks_related = true;
-            } elseif ( false !== stripos( $name, 'Maroon Horizon Smart Firewall' ) ) {
+            } elseif ( false !== stripos( $name, 'Maroon Horizon Smart Firewall' ) || 0 === stripos( $name, 'MH Smart Firewall' ) ) {
                 $looks_related = true;
             }
-            // 1.8.3: no 'mh.ie in Plugin URI' match - every Maroon Horizon plugin has one
+            // 1.8.3: no 'mh.ie in Plugin URI' match - every Maroon Horizon plugin has one; 1.8.17: new name 'MH Smart Firewall ...', the old name still counts
             if ( !$looks_related ) {
                 continue;
             }
@@ -223,11 +223,11 @@ register_activation_hook( __FILE__, static function ( $network_wide ) use($mhsf_
     if ( function_exists( 'deactivate_plugins' ) ) {
         deactivate_plugins( $mhsf_current_basename, true, (bool) $network_wide );
     }
-    $mhsf_this_name = ( $mhsf_is_pro_edition ? 'Maroon Horizon Smart Firewall Pro' : 'Maroon Horizon Smart Firewall' );
-    $mhsf_other_name = ( $mhsf_is_pro_edition ? 'Maroon Horizon Smart Firewall' : 'Maroon Horizon Smart Firewall Pro' );
+    $mhsf_this_name = ( $mhsf_is_pro_edition ? 'MH Smart Firewall Pro' : 'MH Smart Firewall' );
+    $mhsf_other_name = ( $mhsf_is_pro_edition ? 'MH Smart Firewall' : 'MH Smart Firewall Pro' );
     $plugins_url = ( function_exists( 'network_admin_url' ) && $network_wide ? network_admin_url( 'plugins.php' ) : admin_url( 'plugins.php' ) );
     $message = '<p><strong>' . esc_html__( 'Plugin activation blocked', 'maroon-horizon-smart-firewall' ) . '</strong></p>';
-    $message .= '<p>' . esc_html__( 'Only one edition of Maroon Horizon Smart Firewall can be active at a time.', 'maroon-horizon-smart-firewall' ) . '</p>';
+    $message .= '<p>' . esc_html__( 'Only one edition of MH Smart Firewall can be active at a time.', 'maroon-horizon-smart-firewall' ) . '</p>';
     $message .= '<p>' . sprintf( 
         /* translators: 1: edition being activated, 2: edition currently active */
         esc_html__( 'You are trying to activate %1$s, but %2$s is currently active.', 'maroon-horizon-smart-firewall' ),
@@ -250,8 +250,8 @@ $mhsf_other_candidates = (array) $mhsf_get_other_candidates();
 $mhsf_conflict = $mhsf_runtime_conflict_check( $mhsf_other_candidates );
 if ( !empty( $mhsf_conflict['has_conflict'] ) ) {
     if ( function_exists( 'add_action' ) && function_exists( 'is_admin' ) && is_admin() ) {
-        $mhsf_this_name = ( $mhsf_is_pro_edition ? 'Maroon Horizon Smart Firewall Pro' : 'Maroon Horizon Smart Firewall' );
-        $mhsf_other_name = ( $mhsf_is_pro_edition ? 'Maroon Horizon Smart Firewall' : 'Maroon Horizon Smart Firewall Pro' );
+        $mhsf_this_name = ( $mhsf_is_pro_edition ? 'MH Smart Firewall Pro' : 'MH Smart Firewall' );
+        $mhsf_other_name = ( $mhsf_is_pro_edition ? 'MH Smart Firewall' : 'MH Smart Firewall Pro' );
         $mhsf_notice_cb = static function () use($mhsf_this_name, $mhsf_other_name) {
             if ( !current_user_can( 'activate_plugins' ) && !(function_exists( 'is_network_admin' ) && is_network_admin() && current_user_can( 'manage_network_plugins' )) ) {
                 return;
@@ -259,7 +259,7 @@ if ( !empty( $mhsf_conflict['has_conflict'] ) ) {
             $plugins_url = ( function_exists( 'is_network_admin' ) && is_network_admin() && function_exists( 'network_admin_url' ) ? network_admin_url( 'plugins.php' ) : admin_url( 'plugins.php' ) );
             echo '<div class="notice notice-error">';
             echo '<p><strong>' . esc_html__( 'Edition conflict detected', 'maroon-horizon-smart-firewall' ) . '</strong></p>';
-            echo '<p>' . esc_html__( 'Only one edition of Maroon Horizon Smart Firewall can be active at a time.', 'maroon-horizon-smart-firewall' ) . '</p>';
+            echo '<p>' . esc_html__( 'Only one edition of MH Smart Firewall can be active at a time.', 'maroon-horizon-smart-firewall' ) . '</p>';
             echo '<p>' . sprintf( 
                 /* translators: 1: active conflicting edition name, 2: this edition name */
                 esc_html__( '%1$s is currently active. To use %2$s, please deactivate %1$s.', 'maroon-horizon-smart-firewall' ),
@@ -560,7 +560,7 @@ add_action( 'admin_notices', static function () {
     }
     $next = mhsf_free_pro_next_step();
     echo '<div class="notice notice-success" style="padding:12px 14px;border-left-width:4px;">';
-    echo '<h2 style="margin:0 0 6px;">' . esc_html__( 'Thank you! Your Maroon Horizon Smart Firewall PRO license is ready.', 'maroon-horizon-smart-firewall' ) . '</h2>';
+    echo '<h2 style="margin:0 0 6px;">' . esc_html__( 'Thank you! Your MH Smart Firewall PRO license is ready.', 'maroon-horizon-smart-firewall' ) . '</h2>';
     if ( $next['installed'] ) {
         echo '<p style="margin:0 0 10px;">' . esc_html__( 'PRO is already uploaded. One click to switch it on:', 'maroon-horizon-smart-firewall' ) . '</p>';
         echo '<p style="margin:0 0 10px;"><a class="button button-primary button-hero" href="' . esc_url( $next['url'] ) . '">' . esc_html__( 'Activate PRO', 'maroon-horizon-smart-firewall' ) . '</a></p>';
@@ -661,7 +661,7 @@ if ( !defined( 'SFAIS_BASENAME' ) ) {
     define( 'SFAIS_BASENAME', plugin_basename( __FILE__ ) );
 }
 if ( !defined( 'SFAIS_VERSION' ) ) {
-    define( 'SFAIS_VERSION', '1.8.16' );
+    define( 'SFAIS_VERSION', '1.8.17' );
 }
 /**
  * =======================================

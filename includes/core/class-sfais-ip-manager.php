@@ -406,7 +406,7 @@ class SFAIS_IP_Manager {
 
         if ($user_ip && in_array($user_ip, $blocked_manual, true)) {
             status_header(403);
-            exit('Access denied by Maroon Horizon Smart Firewall (IP blocked).');
+            exit('Access denied by MH Smart Firewall (IP blocked).');
         }
 
 		// Threat Feed (subnet-based, optional add-on; manual + AI storage kept separate)
@@ -416,7 +416,7 @@ class SFAIS_IP_Manager {
 		            // Ensure any dynamically provided reason is safe for output.
 		            $extra_reason = sanitize_text_field( $extra_reason );
 		            status_header( 403 );
-		            exit( 'Access denied by Maroon Horizon Smart Firewall (' . esc_html( $extra_reason ) . ').' );
+		            exit( 'Access denied by MH Smart Firewall (' . esc_html( $extra_reason ) . ').' );
 		        }
 
 

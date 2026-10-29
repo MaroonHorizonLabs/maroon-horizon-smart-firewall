@@ -8,7 +8,8 @@ call_user_func( static function () {
     /**
      * Load both last saved reports (core + content)
      */
-    $last_core_report = get_option( 'sfais_last_core_report' );
+    $last_core_report = ( function_exists( 'mhsf_is_playground' ) && mhsf_is_playground() ? false : get_option( 'sfais_last_core_report' ) );
+    // 1.8.17
     $last_content_report = get_option( 'sfais_last_content_report' );
     # Dynamic location hints (do not assume default wp-content paths).
     $mhsf_uploads_info = wp_upload_dir( null, false );
@@ -107,15 +108,28 @@ call_user_func( static function () {
       <span class="dashicons dashicons-search" style="color:#1976d2;font-size:20px;"></span>
       Quick File Integrity Check
     </h3>
+    <?php 
+    if ( function_exists( 'mhsf_is_playground' ) && mhsf_is_playground() ) {
+        /* 1.8.17: Live Preview - one sentence, no count, no list */
+        ?>
+    <p class="sfais-safety-note sfais-safety-note--info"><?php 
+        esc_html_e( 'This check is off in the WordPress Playground preview, because Playground runs a shortened copy of WordPress - on a real site it compares every core file with the official WordPress.org files.', 'maroon-horizon-smart-firewall' );
+        ?></p>
+    <?php 
+    } else {
+        ?>
     <p>
       Validates WordPress core files (wp-admin/, wp-includes/, and key root core files) against official WordPress.org checksums for your current WordPress version and locale, and reports modified or missing core files.
       <strong>Note: this check does not validate files under <?php 
-    echo wp_kses( $mhsf_content_code, array(
-        'code' => array(),
-    ) );
-    ?> (themes, plugins and uploads), including default/bundled themes. Use “Scan Uploads and Themes” for your content directory.</strong>
+        echo wp_kses( $mhsf_content_code, array(
+            'code' => array(),
+        ) );
+        ?> (themes, plugins and uploads), including default/bundled themes. Use “Scan Uploads and Themes” for your content directory.</strong>
     </p>
     <button class="button button-primary" id="sfais-scan-core">🧩 Run Scan</button>
+    <?php 
+    }
+    ?>
     <div id="sfais-core-results" style="margin-top:10px;"></div>
   </div>
 

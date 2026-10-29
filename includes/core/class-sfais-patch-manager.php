@@ -589,7 +589,7 @@ return $dir;
         $ht = $dir . '/.htaccess';
 
         // Ensure we can write if the file exists.
-        if (file_exists($ht) && !SFAIS_FS::is_writable($ht)) {
+        if (file_exists($ht) && !SFAIS_FS::htaccess_writable($ht)) {   // 1.8.17: a locked file is unlocked for the write
             return 'failed';
         }
 
@@ -664,7 +664,7 @@ return $dir;
         if ( strpos( $contents, $begin ) === false ) {
             return true;
         }
-        if ( ! SFAIS_FS::is_writable( $ht ) ) {
+        if ( ! SFAIS_FS::htaccess_writable( $ht ) ) {
             return false;
         }
 
@@ -941,7 +941,7 @@ return $dir;
             // 1.8.13: nothing to undo is not an error (was a red message while the switch went off).
             return [
                 'status'  => true,
-                'message' => '🔄 Patch reverted. No changes were undone because Maroon Horizon Smart Firewall did not modify file permissions on this site.',
+                'message' => '🔄 Patch reverted. No changes were undone because MH Smart Firewall did not modify file permissions on this site.',
             ];
         }
 

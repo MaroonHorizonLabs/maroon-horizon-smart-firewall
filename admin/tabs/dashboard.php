@@ -96,7 +96,8 @@ call_user_func( static function () {
     $mhsf_when = static function ( $ts ) {
         return ( $ts ? wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), (int) $ts ) : '' );
     };
-    $mhsf_core = get_option( 'sfais_last_core_report' );
+    $mhsf_core = ( function_exists( 'mhsf_is_playground' ) && mhsf_is_playground() ? false : get_option( 'sfais_last_core_report' ) );
+    // 1.8.17: no core comparison in Playground
     $mhsf_cont = get_option( 'sfais_last_content_report' );
     $mhsf_patch_opts = array(
         'sfais_patch_versioninfo',

@@ -228,7 +228,7 @@ class SFAIS_Login_Guard {
         $subject = sprintf( __( '[%s] Unlock your login', 'maroon-horizon-smart-firewall' ), $site );
         $body    = sprintf(
             /* translators: 1: site address, 2: unlock link, 3: minutes */
-            __( "Someone asked to unlock the login of %1\$s for your account.\n\nTo unlock it for the device you open this link on, use (works once, for %3\$d minutes):\n%2\$s\n\nIf this was not you, ignore this e-mail - nothing changes. The login stays locked for the address that failed too often.\n\nMaroon Horizon Smart Firewall", 'maroon-horizon-smart-firewall' ),
+            __( "Someone asked to unlock the login of %1\$s for your account.\n\nTo unlock it for the device you open this link on, use (works once, for %3\$d minutes):\n%2\$s\n\nIf this was not you, ignore this e-mail - nothing changes. The login stays locked for the address that failed too often.\n\nMH Smart Firewall", 'maroon-horizon-smart-firewall' ),
             home_url( '/' ),
             $link,
             self::UNLOCK_LINK_MINUTES

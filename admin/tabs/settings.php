@@ -47,7 +47,7 @@ $nonce = wp_create_nonce( 'sfais_settings_nonce' );
     Settings
   </h2>
   <p class="sfais-kicker" style="max-width:700px;color:var(--mh-muted,#555);margin-top:6px;">
-    Manage Maroon Horizon Smart Firewall preferences, license, and updates.
+    Manage MH Smart Firewall preferences, license, and updates.
   </p>
 
   <!-- 🔹 Plugin Info -->
@@ -57,7 +57,7 @@ $nonce = wp_create_nonce( 'sfais_settings_nonce' );
       Plugin Information
     </h3>
     <p style="margin-top:4px;">
-      <strong>Maroon Horizon Smart Firewall</strong><br>
+      <strong>MH Smart Firewall</strong><br>
       Version <strong><?php echo esc_html( $version ); ?></strong><br>
       Status:
       <span style="color:<?php echo esc_attr( $edition_color ); ?>;font-weight:600;">

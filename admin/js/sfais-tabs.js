@@ -185,7 +185,11 @@ document.addEventListener('DOMContentLoaded', () => {
         c.textContent = m[1].replace(/<[^>]*>/g, '');
         p.appendChild(c);
       } else if (part) {
-        p.appendChild(document.createTextNode(part.replace(/<[^>]*>/g, '')));
+        // 1.8.17: <br> stays a line break ('core files.<br>Changed: 1' showed as 'core files.Changed: 1')
+        part.split(/<br\s*\/?>/i).forEach((line, i) => {
+          if (i > 0) p.appendChild(document.createElement('br'));
+          if (line) p.appendChild(document.createTextNode(line.replace(/<[^>]*>/g, '')));
+        });
       }
     });
 
@@ -335,6 +339,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
           showPatchesNotice(ok ? 'success' : 'error', msg, form);
           refreshDashboard(data);
+          // 1.8.17: "Apply again" worked (or the patch was switched off) - the "writable again" state is gone
+          if (ok) {
+            form.querySelectorAll('.mhsf-reapply').forEach(el => el.remove());
+            if (statusEl) statusEl.classList.remove('is-drift');
+          }
 
           // Update UI if server provided it
           const ui = data.ui || null;

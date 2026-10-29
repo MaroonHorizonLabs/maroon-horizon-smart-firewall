@@ -481,8 +481,11 @@ $stored_ip = isset( $result['ip'] ) ? (string) $result['ip'] : $ip_raw;
         }
 
         try {
+            SFAIS_FS::allow_htaccess_unlock( true );   // 1.8.17: a locked .htaccess is unlocked for the patch's own write
             $res = $this->patch_manager->toggle( $patch, $action_type );
+            SFAIS_FS::allow_htaccess_unlock( false );
         } catch ( \Throwable $e ) {
+            SFAIS_FS::allow_htaccess_unlock( false );
             // Always return JSON to avoid the UI showing "Network error" on fatals.
             $safe_message = __( 'Patch operation failed due to a server error. Please check error logs and try again.', 'maroon-horizon-smart-firewall' );
             wp_send_json_error( [ 'message' => $safe_message ] );
@@ -727,6 +730,11 @@ if ( isset( $data['_paths'] ) ) {
             wp_send_json_error( [ 'message' => __( 'Unauthorized', 'maroon-horizon-smart-firewall') ] );
         }
         check_ajax_referer( 'sfais_scanner_nonce', 'nonce' );
+
+        // 1.8.17: no core comparison inside WordPress Playground (compacted WordPress - every file would look modified).
+        if ( function_exists( 'mhsf_is_playground' ) && mhsf_is_playground() ) {
+            wp_send_json_error( [ 'message' => __( 'This check is off in the WordPress Playground preview, because Playground runs a shortened copy of WordPress - on a real site it compares every core file with the official WordPress.org files.', 'maroon-horizon-smart-firewall' ) ] );
+        }
 
         // Core checksums retrieval (version + locale aware).
         $ver    = get_bloginfo( 'version' );

@@ -66,7 +66,7 @@ class SFAIS_Admin_UI {
     public function register_menu() {
         // Top-level menu
         add_menu_page(
-            'Maroon Horizon Smart Firewall',
+            'MH Smart Firewall',
             // page title
             'MH Smart Firewall',
             // menu title (short, text only)
@@ -232,7 +232,7 @@ class SFAIS_Admin_UI {
         $scanner_data = [
             'ajaxurl'     => admin_url( 'admin-ajax.php' ),
             'nonce'       => wp_create_nonce( 'sfais_scanner_nonce' ),
-            'lastCore'    => get_option( 'sfais_last_core_report' ),
+            'lastCore'    => ( function_exists( 'mhsf_is_playground' ) && mhsf_is_playground() ? false : get_option( 'sfais_last_core_report' ) ),
             'lastContent' => get_option( 'sfais_last_content_report' ),
             'lastAiDeep'  => $last_ai_deep_report,
             'isPro'       => $scanner_entitled,
@@ -531,18 +531,32 @@ class SFAIS_Admin_UI {
 						<img src="<?php 
         echo esc_url( SFAIS_URL . 'admin/img/sfais-logo-main.png' );
         ?>"
-							 alt="Maroon Horizon Smart Firewall logo">
+							 alt="MH Smart Firewall logo">
 						<span class="sfais-logo-glow" aria-hidden="true"></span>
 					</div>
 					<div class="mhsf-brand-text">
 						<?php 
         $mhsf_rating = get_option( 'sfais_last_quick_rating' );
-        $mhsf_kick = ( $is_pro_package ? ( $sfais_needs_licence ? __( 'Smart Firewall · PRO (not activated)', 'maroon-horizon-smart-firewall' ) : __( 'Smart Firewall · PRO', 'maroon-horizon-smart-firewall' ) ) : __( 'Smart Firewall · Free', 'maroon-horizon-smart-firewall' ) );
+        // 1.8.17 (Vlad): edition + version above the heading - never the company name (Maroon Horizon may have more plugins).
+        $mhsf_ver = ( defined( 'SFAIS_VERSION' ) ? SFAIS_VERSION : '' );
+        if ( $is_pro_package && $sfais_needs_licence ) {
+            $mhsf_kick = __( 'PRO edition · not activated', 'maroon-horizon-smart-firewall' );
+            $mhsf_kick_ver = '';
+        } else {
+            $mhsf_kick = ( $is_pro_package ? __( 'PRO edition', 'maroon-horizon-smart-firewall' ) : __( 'Free edition', 'maroon-horizon-smart-firewall' ) );
+            /* translators: %s: plugin version, e.g. 1.8.17 */
+            $mhsf_kick_ver = ( '' !== $mhsf_ver ? sprintf( __( 'v%s', 'maroon-horizon-smart-firewall' ), $mhsf_ver ) : '' );
+        }
         ?>
 						<span class="mhsf-kick"><?php 
         echo esc_html( $mhsf_kick );
+        if ( '' !== $mhsf_kick_ver ) {
+            ?> · <span class="mhsf-kick-ver"><?php 
+            echo esc_html( $mhsf_kick_ver );
+            ?></span><?php 
+        }
         ?></span>
-						<h1 class="sfais-logo-title">Maroon Horizon Smart Firewall</h1>
+						<h1 class="sfais-logo-title">MH Smart Firewall</h1>
 						<span class="mhsf-tagline" id="mhsf-header-score"><?php 
         if ( is_array( $mhsf_rating ) && isset( $mhsf_rating['score'] ) ) {
             /* translators: 1: score, 2: label like Fair */
